@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data Structures\MyArrayList.cs" />
+    <Compile Include="Data Structures\MyDequeue.cs" />
+    <Compile Include="Data Structures\MyQueue.cs" />
+    <Compile Include="Data Structures\MyStack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
