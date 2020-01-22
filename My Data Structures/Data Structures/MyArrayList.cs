@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
+
 
 namespace My_Data_Structures.Data_Structures
 {
     public class My_Array_List<T> : IEnumerable
     {
         private T[] list;
-        private int number_of_elements;
-        private const int default_size = 256;       
-        public int NumberOfElements { get => number_of_elements; }
-   
+        private const int default_size = 256;
+        public int NumberOfElements { get; private set; }
+
 
         public My_Array_List()
         {
             list = new T[default_size];
-            number_of_elements = 0;         
+            NumberOfElements = 0;         
         }
 
         public My_Array_List(int size)
         {
             list = new T[size];
-            number_of_elements = 0;     
+            NumberOfElements = 0;     
         }
 
         public My_Array_List(T [] initial)
         {
             list = initial ?? new T[default_size];                  
-            number_of_elements = initial != null ? GetNumOfElements(initial) : 0;                          
+            NumberOfElements = initial != null ? GetNumOfElements(initial) : 0;                          
         }
 
         private int GetNumOfElements(T[] initial)
@@ -54,29 +49,35 @@ namespace My_Data_Structures.Data_Structures
 
         public void Add(T newElement)
         {
-            list[number_of_elements] = newElement;
-            number_of_elements++;
+            list[NumberOfElements] = newElement;
+            NumberOfElements++;
 
-            if (number_of_elements > (list.Length-1) / 2)            
+            if (NumberOfElements > (list.Length-1) / 2)            
                 Resize();         
         }
 
         public bool Remove(T elementToRemove)
         {               
-            for (int i = 0; i < number_of_elements; i++)
+            for (int i = 0; i < NumberOfElements; i++)
             {
                 
-                if (list[i].Equals(elementToRemove) && (i!=number_of_elements-1))
+                if (list[i].Equals(elementToRemove) && (i!=NumberOfElements-1))
                 {
-                    for (int j = i; j < number_of_elements; j++)
+                    for (int j = i; j < NumberOfElements; j++)
                     {
-                        list[j] = list[j + 1];                       
+                        list[j] = list[j + 1];
+                        NumberOfElements--;
+                        if (NumberOfElements < (list.Length - 1) / 4)
+                            Resize();
                     }                    
                     return true;
                 }
-                else if (list[i].Equals(elementToRemove) && (i == number_of_elements - 1))
+                else if (list[i].Equals(elementToRemove) && (i == NumberOfElements - 1))
                 {
                     list[i] = default(T);
+                    NumberOfElements--;
+                    if (NumberOfElements < (list.Length - 1) / 4)
+                        Resize();
                     return true;
                 }
             }
@@ -85,7 +86,7 @@ namespace My_Data_Structures.Data_Structures
 
         public T Find(T target)
         {
-            for (int i = 0; i < number_of_elements; i++)
+            for (int i = 0; i < NumberOfElements; i++)
             {
                 if (list[i].Equals(target))
                 {
@@ -111,9 +112,19 @@ namespace My_Data_Structures.Data_Structures
 
         private void Resize()
         {
-            T[] newList = new T[list.Length * 2];
-            list.CopyTo(newList,0);
-            list = newList;          
+            T[] newList;
+            if (NumberOfElements < list.Length/4)
+            {
+                newList = new T[list.Length/2];
+                list.CopyTo(newList, 0);
+                list = newList;
+            }
+            else
+            {
+                newList = new T[list.Length * 2];
+                list.CopyTo(newList, 0);
+                list = newList;
+            }                 
         }      
     }
 }

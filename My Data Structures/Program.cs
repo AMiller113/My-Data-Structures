@@ -9,7 +9,8 @@ namespace My_Data_Structures_And_Algorithms
     class Program
     {
         static void Main(string[] args)
-        {                      
+        {
+            LinkedList<string> vs = new LinkedList<string>();        
         }
     }
 }
